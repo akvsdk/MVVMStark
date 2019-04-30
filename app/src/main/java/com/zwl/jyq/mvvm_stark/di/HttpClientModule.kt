@@ -1,11 +1,9 @@
 package com.zwl.jyq.mvvm_stark.di
 
 import com.facebook.stetho.okhttp3.StethoInterceptor
-import com.zwl.jyq.mvvm_stark.BuildConfig
+import com.lxj.androidktx.okhttp.HttpLogInterceptor
 import com.zwl.jyq.mvvm_stark.http.HttpsUtils
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -39,14 +37,14 @@ val httpClientModule = Kodein.Module(HTTP_CLIENT_MODULE_TAG) {
             .build()
     }
 
-    bind<Interceptor>(HTTP_CLIENT_MODULE_INTERCEPTOR_LOG_TAG) with singleton {
-        HttpLoggingInterceptor().apply {
-            level = when (BuildConfig.DEBUG) {
-                true -> HttpLoggingInterceptor.Level.BODY
-                false -> HttpLoggingInterceptor.Level.NONE
-            }
-        }
-    }
+//    bind<Interceptor>(HTTP_CLIENT_MODULE_INTERCEPTOR_LOG_TAG) with singleton {
+//        HttpLoggingInterceptor().apply {
+//            level = when (BuildConfig.DEBUG) {
+//                true -> HttpLoggingInterceptor.Level.BODY
+//                false -> HttpLoggingInterceptor.Level.NONE
+//            }
+//        }
+//    }
 
 
     bind<OkHttpClient>() with singleton {
@@ -60,7 +58,8 @@ val httpClientModule = Kodein.Module(HTTP_CLIENT_MODULE_TAG) {
                 TimeUnit.SECONDS
             )
             .hostnameVerifier { _, _ -> true }.sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
-            .addInterceptor(instance(HTTP_CLIENT_MODULE_INTERCEPTOR_LOG_TAG))
+          //  .addInterceptor(instance(HTTP_CLIENT_MODULE_INTERCEPTOR_LOG_TAG))
+            .addNetworkInterceptor(HttpLogInterceptor())
             .addNetworkInterceptor(StethoInterceptor())
             .build()
     }

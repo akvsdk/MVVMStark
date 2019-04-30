@@ -95,7 +95,11 @@ dependencies {
     api libs.logger
 
     //utils
-    api libs.commonutils
+    api(libs.commonutils) {
+        exclude group: 'com.github.bumptech.glide'
+        exclude group: 'com.squareup.okhttp3'
+        exclude group: 'com.tencent:mmkv'
+    }
 
     api libs.mmvk
 

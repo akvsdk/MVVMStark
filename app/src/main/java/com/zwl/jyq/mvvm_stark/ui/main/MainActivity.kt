@@ -11,6 +11,8 @@ import com.j1ang.mvvm.ext.rx.clicksThrottleFirst
 import com.uber.autodispose.autoDisposable
 import com.zwl.jyq.mvvm_stark.R
 import com.zwl.jyq.mvvm_stark.manager.UserManager
+import com.zwl.jyq.mvvm_stark.ui.test.TestActivity
+import com.zwl.jyq.mvvm_stark.utils.toJson
 import kotlinx.android.synthetic.main.activity_text.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.instance
@@ -32,11 +34,13 @@ class MainActivity : BaseActivity() {
     }
 
     private fun binds() {
+        mViewModel.getUpdateInfo(test_tv.text.toString())
         mViewModel.result.toReactiveStream().autoDisposable(scopeProvider).subscribe {
+            it.invitestring.toJson()
             test_tv.text = it.invitestring
         }
         test_tv.clicksThrottleFirst().autoDisposable(scopeProvider).subscribe {
-            mViewModel.getUpdateInfo(test_tv.text.toString())
+            TestActivity.start(this)
         }
         tips_tv.clicksThrottleFirst().autoDisposable(scopeProvider).subscribe {
             tips_tv.text = UserManager.INSTANCE.version

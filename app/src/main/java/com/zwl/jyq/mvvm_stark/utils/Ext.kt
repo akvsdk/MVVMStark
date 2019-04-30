@@ -1,6 +1,6 @@
 package com.zwl.jyq.mvvm_stark.utils
 
-import com.blankj.utilcode.util.EncryptUtils
+import com.lxj.androidktx.core.md5
 import com.zwl.jyq.mvvm_stark.BuildConfig
 
 /**
@@ -23,6 +23,6 @@ fun createMap(vararg pairs: Pair<String, Any>): MutableMap<String, Any> {
         sign += "$key=$vaule&"
     }
     sign = sign.substring(0, sign.length - 1)
-    map["sign"] = EncryptUtils.encryptMD5ToString("zwltech:$sign".trim())
+    map["sign"] = "zwltech:$sign".trim().md5()
     return map
 }
