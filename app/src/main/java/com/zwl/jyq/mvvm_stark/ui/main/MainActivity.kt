@@ -51,6 +51,7 @@ class MainActivity : BaseActivity() {
             .autoDisposable(scopeProvider).subscribe {
                 mProgressBar.visibility = it
             }
+
     }
 
 

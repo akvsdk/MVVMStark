@@ -1,8 +1,5 @@
 package com.zwl.jyq.mvvm_stark.utils
 
-import com.lxj.androidktx.core.md5
-import com.zwl.jyq.mvvm_stark.BuildConfig
-
 /**
  * Date:  2019/4/28.
  * version:  V1.0
@@ -14,7 +11,7 @@ import com.zwl.jyq.mvvm_stark.BuildConfig
  */
 fun createMap(vararg pairs: Pair<String, Any>): MutableMap<String, Any> {
     val map = mutableMapOf<String, Any>()
-    map["appver"] = BuildConfig.VERSION_NAME + ""
+    map["appver"] =   "3.0"
     map["sysver"] = "android," + android.os.Build.VERSION.RELEASE
     map.putAll(pairs.toMap())
     var sign = ""
@@ -23,6 +20,6 @@ fun createMap(vararg pairs: Pair<String, Any>): MutableMap<String, Any> {
         sign += "$key=$vaule&"
     }
     sign = sign.substring(0, sign.length - 1)
-    map["sign"] = "zwltech:$sign".trim().md5()
+  //  map["sign"] = "zwltech:$sign".trim().md5()
     return map
 }

@@ -5,15 +5,12 @@ import com.j1ang.mvvm.base.repository.BaseRepositoryBoth
 import com.j1ang.mvvm.base.repository.ILocalDataSource
 import com.j1ang.mvvm.base.repository.IRemoteDataSource
 import com.j1ang.mvvm.storage.SpUtils
-import com.lxj.androidktx.core.addToList
 import com.lxj.androidktx.core.getList
 import com.lxj.androidktx.core.mmkv
 import com.safframework.log.L
 import com.zwl.jyq.mvvm_stark.entity.UpdateBean
 import com.zwl.jyq.mvvm_stark.entity.UserInfo
 import com.zwl.jyq.mvvm_stark.http.Errors
-import com.zwl.jyq.mvvm_stark.http.SUCCESS
-import com.zwl.jyq.mvvm_stark.http.globalHandleError
 import com.zwl.jyq.mvvm_stark.http.handleResults
 import com.zwl.jyq.mvvm_stark.http.service.ServiceManager
 import com.zwl.jyq.mvvm_stark.manager.UserManager
@@ -21,8 +18,6 @@ import com.zwl.jyq.mvvm_stark.repository.UserInfoRepository
 import com.zwl.jyq.mvvm_stark.utils.createMap
 import io.reactivex.Completable
 import io.reactivex.Flowable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlin.random.Random
 
 /**
@@ -58,19 +53,26 @@ class MainRemoteDataSource(private val serviceManager: ServiceManager) : IRemote
 
     fun getUpdate(action: String): Flowable<Either<Errors, UpdateBean>> {
         L.d(action)
+//        return serviceManager.testService.getUpdate(map)
+//            .subscribeOn(Schedulers.io())
+//            .unsubscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .compose(globalHandleError())
+//            .map {
+//                when (it.code) {
+//                    SUCCESS -> if (it.data != null) {
+//                        UserManager.INSTANCE = it.data
+//                        Either.right(it.data)
+//                    } else Either.left(Errors.EmptyResultsError)
+//                    else -> Either.left(Errors.EmptyResultsError)
+//                }
+//            }
+
         return serviceManager.testService.getUpdate(map)
-            .subscribeOn(Schedulers.io())
-            .unsubscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .compose(globalHandleError())
+            .compose(handleResults())
             .map {
-                when (SUCCESS) {
-                    it.code -> if (it.data != null) {
-                        UserManager.INSTANCE = it.data
-                        Either.right(it.data)
-                    } else Either.left(Errors.EmptyResultsError)
-                    else -> Either.left(Errors.EmptyResultsError)
-                }
+                UserManager.INSTANCE = it
+                Either.right(it)
             }
     }
 
@@ -85,7 +87,7 @@ class MainLocalDataSource(private val userRepository: UserInfoRepository) : ILoc
             SpUtils.saveValue("username", username)
             SpUtils.saveValue("password", password)
             SpUtils.saveValue("user", UserInfo(15, "jack", Random.nextInt(0, 99)))
-            mmkv().addToList("list_user", UserInfo(15, "cxk", Random.nextInt(0, 150)), true)
+           // mmkv().addToList("list_user", UserInfo(15, "cxk", Random.nextInt(0, 150)), true)
         }
     }
 

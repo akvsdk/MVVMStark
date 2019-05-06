@@ -7,10 +7,12 @@ import arrow.core.some
 import com.j1ang.mvvm.base.viewmodel.AutoDisposeViewModel
 import com.j1ang.mvvm.ext.arrow.whenNotNull
 import com.j1ang.mvvm.ext.livedata.toReactiveStream
+import com.lxj.androidktx.bus.LiveDataBus
 import com.qingmei2.rhine.ext.toast
 import com.uber.autodispose.autoDisposable
 import com.zwl.jyq.mvvm_stark.App
 import com.zwl.jyq.mvvm_stark.http.Errors
+import com.zwl.jyq.mvvm_stark.utils.ApiException
 import retrofit2.HttpException
 
 /**
@@ -23,7 +25,6 @@ open class AutoViewModel : AutoDisposeViewModel() {
 
     internal val error: MutableLiveData<Option<Throwable>> = MutableLiveData()
 
-
     init {
         error.toReactiveStream()
             .map { errorOpt ->
@@ -32,6 +33,11 @@ open class AutoViewModel : AutoDisposeViewModel() {
                         is Errors.EmptyInputError -> "输入不能为空".some()
                         is Errors.EmptyResultsError -> "服务器取回数据为空".some()
                         is HttpException -> "服务器异常".some()
+                        is Errors.ReLoginError -> {
+                            LiveDataBus.with<String>("key1").postValue("message1")
+                            "".some()
+                        }
+                        is ApiException -> it.message.some()
                         else -> none()
                     }
                 }
@@ -39,9 +45,11 @@ open class AutoViewModel : AutoDisposeViewModel() {
             .autoDisposable(this)
             .subscribe { errorMsg ->
                 errorMsg.whenNotNull {
-                    App.INSTANCE.toast { it }
+                    App.INSTANCE.toast { it!! }
                 }
             }
     }
 
 }
+
+data class Exc(val code: Int, val msg: String)
