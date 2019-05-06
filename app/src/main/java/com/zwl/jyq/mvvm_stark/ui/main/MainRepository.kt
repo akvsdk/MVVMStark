@@ -5,6 +5,9 @@ import com.j1ang.mvvm.base.repository.BaseRepositoryBoth
 import com.j1ang.mvvm.base.repository.ILocalDataSource
 import com.j1ang.mvvm.base.repository.IRemoteDataSource
 import com.j1ang.mvvm.storage.SpUtils
+import com.lxj.androidktx.core.addToList
+import com.lxj.androidktx.core.getList
+import com.lxj.androidktx.core.mmkv
 import com.safframework.log.L
 import com.zwl.jyq.mvvm_stark.entity.UpdateBean
 import com.zwl.jyq.mvvm_stark.entity.UserInfo
@@ -82,7 +85,7 @@ class MainLocalDataSource(private val userRepository: UserInfoRepository) : ILoc
             SpUtils.saveValue("username", username)
             SpUtils.saveValue("password", password)
             SpUtils.saveValue("user", UserInfo(15, "jack", Random.nextInt(0, 99)))
-
+            mmkv().addToList("list_user", UserInfo(15, "cxk", Random.nextInt(0, 150)), true)
         }
     }
 
@@ -91,6 +94,7 @@ class MainLocalDataSource(private val userRepository: UserInfoRepository) : ILoc
         L.e("{${userRepository.password}}")
         //   L.e(SpUtils.getObj("user", UserInfo::class.java).toString())
         L.e(SpUtils.getObj("user", UserInfo::class.java).toString())
+        L.e(mmkv().getList<UserInfo>("list_user").toString())
     }
 
     fun clear(): Completable {

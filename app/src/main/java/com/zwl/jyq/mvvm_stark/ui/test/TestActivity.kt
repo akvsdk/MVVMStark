@@ -5,8 +5,10 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import com.j1ang.mvvm.base.view.activity.BaseActivity
 import com.j1ang.mvvm.image.load
+import com.qingmei2.rhine.ext.toast
 import com.zwl.jyq.mvvm_stark.R
 import kotlinx.android.synthetic.main.activity_test.*
+import kotlinx.android.synthetic.main.activity_text.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.instance
 
@@ -25,6 +27,7 @@ class TestActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         test_iv.load("https://ws1.sinaimg.cn/large/54d358dbly1g2brx5w801j20fl0ldmxq.jpg")
+        toast(test_tv.text.toString())
     }
 
     companion object {

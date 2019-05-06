@@ -32,7 +32,11 @@ object SpUtils : MMKVHandler {
         MMKV.initialize(SpUtils.context)
         MMKV.setLogLevel(MMKVLogLevel.LevelInfo)
         MMKV.registerHandler(this)
-        prefs = MMKV.defaultMMKV()
+        prefs = if (configName != configName) {
+            MMKV.defaultMMKV()
+        } else {
+            MMKV.mmkvWithID(configName)
+        }
     }
 
     fun save(key: String, value: Any) {
@@ -84,8 +88,8 @@ object SpUtils : MMKVHandler {
         get(key = key, def = def)
 
     fun <T : Parcelable> getObj(key: String, clzz: Class<T>): T? {
-        return if (prefs.decodeParcelable(key, clzz) == null)  null else prefs.decodeParcelable(key, clzz)
-     }
+        return if (prefs.decodeParcelable(key, clzz) == null) null else prefs.decodeParcelable(key, clzz)
+    }
 
     /**
      * 获取全局下载地址
