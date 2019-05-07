@@ -131,6 +131,7 @@ ext {
             espresso_test_rules         : [group: 'androidx.test', name: 'rules', version: '1.1.0'],
             stetho                      : [group: 'com.facebook.stetho', name: 'stetho-okhttp3', version: '1.5.1'],
             mmvk                        : [group: 'com.tencent', name: 'mmkv', version: '1.0.19'],
+            oklog3                        : [group: 'com.github.simonpercic', name: 'oklog3', version: '2.3.0'],
             commonutils                 : [group: 'com.lxj', name: 'androidktx', version: '1.0.18']
 
     ]

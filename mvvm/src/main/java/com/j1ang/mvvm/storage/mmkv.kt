@@ -4,7 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Environment
 import android.os.Parcelable
+import com.lxj.androidktx.core.i
 import com.safframework.log.L
+import com.safframework.log.e
+import com.safframework.log.w
+
 import com.tencent.mmkv.MMKV
 import com.tencent.mmkv.MMKVHandler
 import com.tencent.mmkv.MMKVLogLevel
@@ -127,11 +131,11 @@ object SpUtils : MMKVHandler {
     override fun mmkvLog(level: MMKVLogLevel?, file: String?, line: Int, func: String?, message: String?) {
         val log = "<$file:$line::$func> $message"
         when (level) {
-            MMKVLogLevel.LevelDebug -> L.d(log)
-            MMKVLogLevel.LevelInfo -> L.i(log)
-            MMKVLogLevel.LevelWarning -> L.w(log)
-            MMKVLogLevel.LevelError -> L.e(log)
-            MMKVLogLevel.LevelNone -> L.e(log)
+            MMKVLogLevel.LevelDebug -> log.i()
+            MMKVLogLevel.LevelInfo -> log.i()
+            MMKVLogLevel.LevelWarning -> log.w()
+            MMKVLogLevel.LevelError -> log.e()
+            MMKVLogLevel.LevelNone -> log.i()
             else -> L.e(log)
         }
     }

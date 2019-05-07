@@ -6,6 +6,7 @@ import com.j1ang.mvvm.base.repository.ILocalDataSource
 import com.j1ang.mvvm.base.repository.IRemoteDataSource
 import com.j1ang.mvvm.storage.SpUtils
 import com.lxj.androidktx.core.getList
+import com.lxj.androidktx.core.i
 import com.lxj.androidktx.core.mmkv
 import com.safframework.log.L
 import com.zwl.jyq.mvvm_stark.entity.UpdateBean
@@ -52,8 +53,8 @@ class MainRemoteDataSource(private val serviceManager: ServiceManager) : IRemote
     }
 
     fun getUpdate(action: String): Flowable<Either<Errors, UpdateBean>> {
-        L.d(action)
-//        return serviceManager.testService.getUpdate(map)
+        action.i()
+        //        return serviceManager.testService.getUpdate(map)
 //            .subscribeOn(Schedulers.io())
 //            .unsubscribeOn(Schedulers.io())
 //            .observeOn(AndroidSchedulers.mainThread())
@@ -87,14 +88,13 @@ class MainLocalDataSource(private val userRepository: UserInfoRepository) : ILoc
             SpUtils.saveValue("username", username)
             SpUtils.saveValue("password", password)
             SpUtils.saveValue("user", UserInfo(15, "jack", Random.nextInt(0, 99)))
-           // mmkv().addToList("list_user", UserInfo(15, "cxk", Random.nextInt(0, 150)), true)
+            // mmkv().addToList("list_user", UserInfo(15, "cxk", Random.nextInt(0, 150)), true)
         }
     }
 
     fun showSP() {
         L.e(userRepository.username)
         L.e("{${userRepository.password}}")
-        //   L.e(SpUtils.getObj("user", UserInfo::class.java).toString())
         L.e(SpUtils.getObj("user", UserInfo::class.java).toString())
         L.e(mmkv().getList<UserInfo>("list_user").toString())
     }

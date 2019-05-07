@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<template name="Basic Fragment for MVVM-Rhine" description="Creates a new Fragment of MVVM-Rhine."
+	format="5" minApi="16" minBuildApi="8" revision="3">
+
+	<category value="Fragment" />
+
+	<parameter name="Package name" constraints="package" default="com.mycompany.myapp"
+		id="packageName" type="string" />
+
+	<parameter name="Object Kind" constraints="nonempty" default="Item"
+		help="Other examples are 'Person', 'Book', etc." id="objectKind" type="string" />
+
+	<parameter name="Fragment class name" constraints="nonempty|class|unique" default="ItemFragment"
+		id="className" suggest="${extractLetters(objectKind)}Fragment" type="string" />
+
+	<parameter name="layout file name" constraints="layout|nonempty|unique" default="fragment_my"
+		id="fragment_layout" suggest="fragment_${classToResource(objectKind)}" type="string" />
+
+	<parameter name="ViewModel class name" constraints="nonempty|class|unique" default="MyViewModel"
+		id="viewModelClass" suggest="${extractLetters(objectKind)}ViewModel" type="string"
+		visibility="true" />
+
+	<parameter name="Kodein module name" constraints="nonempty|class|unique"
+		default="myKodeinModule" id="kodeinModuleName"
+		suggest="${extractLetters(objectKind?lower_case)}KodeinModule" type="string"
+		visibility="generateKodeinModule" />
+
+	<parameter name="Generate DI module of Kodein" default="true"
+		help="If true, KodeinModule file will be generated" id="generateKodeinModule"
+		type="boolean" />
+
+	<parameter name="DataBinding class name" constraints="nonempty|class|unique"
+		default="MyFragmentBinding" id="fragmentBindingClass"
+		suggest="Fragment${extractLetters(objectKind)}Binding" type="string" visibility="false" />
+
+	<parameter name="Kodein module name" constraints="nonempty|class|unique" default="MyDataSource"
+		id="dataSourceName" suggest="${extractLetters(objectKind?lower_case)}DataSource"
+		type="string" visibility="false" />
+
+	<parameter name="DataSourceRepository class name" constraints="nonempty|class|unique"
+		default="MyDataSourceRepository" id="dataSourceRepositoryName"
+		suggest="${extractLetters(objectKind)}DataSourceRepository" type="string"
+		visibility="false" />
+
+	<parameter name="RemoteDataSource class name" constraints="nonempty|class|unique"
+		default="MyRemoteDataSource" id="remoteDataSourceName"
+		suggest="${extractLetters(objectKind)}RemoteDataSource" type="string" visibility="false" />
+
+	<parameter name="LocalDataSource class name" constraints="nonempty|class|unique"
+		default="MyLocalDataSource" id="localDataSourceName"
+		suggest="${extractLetters(objectKind)}LocalDataSource" type="string" visibility="false" />
+
+	<parameter name="Generate DataSource" default="true"
+		help="If true, DataSource file will be generated" id="generateDataSource" type="boolean" />
+
+	<!-- 128x128 thumbnails relative to template.xml -->
+	<thumbs>
+		<!-- default thumbnail is required -->
+		<thumb>templates_fragment.png</thumb>
+	</thumbs>
+
+	<globals file="globals.xml.ftl" />
+	<execute file="recipe.xml.ftl" />
+
+</template>

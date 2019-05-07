@@ -38,4 +38,5 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':mvvm')
     implementation libs.stetho
+    implementation libs.oklog3
 }
