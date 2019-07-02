@@ -43,6 +43,7 @@ dependencies {
     implementation libs.appcompat
     implementation libs.design
     implementation libs.recyclerview
+    implementation libs.activity
 
     api libs.kotlin_stdlib
 
@@ -99,6 +100,7 @@ dependencies {
         exclude group: 'com.github.bumptech.glide'
         exclude group: 'com.squareup.okhttp3'
         exclude group: 'com.tencent:mmkv'
+        exclude group: 'android.arch.lifecycle'
     }
 
     api libs.mmvk

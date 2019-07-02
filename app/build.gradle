@@ -39,4 +39,6 @@ dependencies {
     implementation project(':mvvm')
     implementation libs.stetho
     implementation libs.oklog3
+    implementation 'com.afollestad.material-dialogs:lifecycle:3.0.0-rc1'
+    implementation 'com.afollestad.material-dialogs:core:3.0.0-rc1'
 }

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MVVM-Stark</string>
+    <string name="load">加载中……</string>
 </resources>
